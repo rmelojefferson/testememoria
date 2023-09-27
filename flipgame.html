@@ -29,8 +29,11 @@
         <div class="row justify-content-center">
             <button class="btn btn-primary mr-2" onclick="revealAll()">Revelar Todas</button>
             <button class="btn btn-danger" onclick="hideAll()">Esconder Todas</button>
+            <button class="btn btn-success" onclick="startTimer()">Iniciar Temporizador</button>
+            <button class="btn btn-warning" onclick="resetGame()">Reiniciar Jogo</button>
             <h3 class="mx-3">Acertos: <span id="hits">0</span></h3>
             <h3>Erros: <span id="misses">0</span></h3>
+            <h3>Tempo: <span id="timer">0</span> segundos</h3>
         </div>
         <div id="memory-game" class="row justify-content-center mt-3"></div>
     </div>
@@ -41,6 +44,8 @@
         let flippedCards = [];
         let hits = 0;
         let misses = 0;
+        let timer;
+        let seconds = 0;
 
         function shuffle(array) {
             return array.sort(() => Math.random() - 0.5);
@@ -67,6 +72,33 @@
         function updateScore() {
             document.getElementById('hits').textContent = hits;
             document.getElementById('misses').textContent = misses;
+        }
+
+        function updateTimer() {
+            document.getElementById('timer').textContent = seconds;
+        }
+
+        function startTimer() {
+            timer = setInterval(() => {
+                seconds++;
+                updateTimer();
+            }, 1000);
+        }
+
+        function stopTimer() {
+            clearInterval(timer);
+        }
+
+        function resetGame() {
+            shuffledCards = shuffle([...cards, ...cards]);
+            flippedCards = [];
+            hits = 0;
+            misses = 0;
+            seconds = 0;
+            stopTimer();
+            updateScore();
+            updateTimer();
+            hideAll();
         }
 
         window.addEventListener('load', () => {
@@ -104,6 +136,48 @@
                 misses++;
             } else {
                 hits++;
+                if (hits === cards.length) {
+                    stopTimer();
+                    const minutes = Math.floor(seconds / 60);
+                    const remainingSeconds = seconds % 60;
+                    alert(`Você terminou em ${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')} minutos!`);
+                }
+            }
+            updateScore();
+            flippedCards = [];
+        }
+          function flipCard() {
+            const index = this.dataset.index;
+            if (!flippedCards.includes(index) && flippedCards.length < 2 && !this.classList.contains('found')) {
+                this.innerHTML = shuffledCards[index];
+                this.classList.remove('hidden');
+                flippedCards.push(index);
+                if (flippedCards.length === 2) {
+                    setTimeout(checkMatch, 1000);
+                }
+            }
+        }
+
+        function checkMatch() {
+            const [index1, index2] = flippedCards;
+            const card1 = document.querySelector(`[data-index='${index1}']`);
+            const card2 = document.querySelector(`[data-index='${index2}']`);
+  
+            if (shuffledCards[index1] !== shuffledCards[index2]) {
+                card1.innerHTML = card2.innerHTML = '<i class="bi bi-question"></i>';
+                card1.classList.add('hidden');
+                card2.classList.add('hidden');
+                misses++;
+            } else {
+                hits++;
+                card1.classList.add('found'); // Adiciona a classe 'found' à primeira carta
+                card2.classList.add('found'); // Adiciona a classe 'found' à segunda carta
+                if (hits === cards.length) {
+                    stopTimer();
+                    const minutes = Math.floor(seconds / 60);
+                    const remainingSeconds = seconds % 60;
+                    alert(`Você terminou em ${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')} minutos!`);
+                }
             }
             updateScore();
             flippedCards = [];
@@ -113,3 +187,4 @@
     <script src="https://code.iconify.design/1/1.0.7/iconify.min.js"></script>
 </body>
 </html>
+
