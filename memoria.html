@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lista de Palavras</title>
+<style>
+  .container {
+    text-align: center;
+  }
+  .btn-container {
+    margin-bottom: 20px;
+  }
+  .btn {
+    margin: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  .hidden {
+    display: none;
+  }
+  ul {
+    list-style-type: none;
+  }
+	
+</style>
+</head>
+<body>
+  <div class="container">
+    <h1>Lista de Palavras</h1>
+    <div class="btn-container">
+      <button class="btn" onclick="toggleList()">Mostrar/Esconder Lista</button>
+    </div>
+    <ul id="wordList" class="hidden">
+      <!-- As palavras serão adicionadas aqui via JavaScript -->
+    </ul>
+  </div>
+
+  <script>
+    const words = [
+      "GATO", "CARREGADOR", "MÃE", "SEMINÁRIO", "PRAIA", "PRATELEIRA", 
+      "FEIJÃO", "ESTRUTURA", "FILME", "ESPÍRITO", "FÉRIAS", "BOLA", "DOCE", 
+      "JANELA", "VIAGEM", "TRÂNSITO", "AMIGO", "CORTADOR", "INFÂNCIA", "VENTILADOR"
+    ];
+
+    function toggleList() {
+      const list = document.getElementById('wordList');
+      list.classList.toggle('hidden');
+    }
+
+    window.addEventListener('load', () => {
+      const list = document.getElementById('wordList');
+      words.forEach(word => {
+        const listItem = document.createElement('li');
+        listItem.textContent = word;
+        list.appendChild(listItem);
+      });
+    });
+  </script>
+</body>
+</html>
