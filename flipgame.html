@@ -29,6 +29,8 @@
         <div class="row justify-content-center">
             <button class="btn btn-primary mr-2" onclick="revealAll()">Revelar Todas</button>
             <button class="btn btn-danger" onclick="hideAll()">Esconder Todas</button>
+            <h3 class="mx-3">Acertos: <span id="hits">0</span></h3>
+            <h3>Erros: <span id="misses">0</span></h3>
         </div>
         <div id="memory-game" class="row justify-content-center mt-3"></div>
     </div>
@@ -37,6 +39,8 @@
         const cards = ['🍎', '🍌', '🍒', '🥦', '🥕', '🍇', '🥝', '🥑', '🍍', '🍓'];
         let shuffledCards = shuffle([...cards, ...cards]);
         let flippedCards = [];
+        let hits = 0;
+        let misses = 0;
 
         function shuffle(array) {
             return array.sort(() => Math.random() - 0.5);
@@ -58,6 +62,11 @@
                 card.textContent = '';
                 card.classList.add('hidden');
             });
+        }
+
+        function updateScore() {
+            document.getElementById('hits').textContent = hits;
+            document.getElementById('misses').textContent = misses;
         }
 
         window.addEventListener('load', () => {
@@ -92,7 +101,11 @@
                 card1.innerHTML = card2.innerHTML = '<i class="bi bi-question"></i>';
                 card1.classList.add('hidden');
                 card2.classList.add('hidden');
+                misses++;
+            } else {
+                hits++;
             }
+            updateScore();
             flippedCards = [];
         }
     </script>
