@@ -1,66 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lista de Palavras</title>
-<style>
-  .container {
-    text-align: center;
-  }
-  .btn-container {
-    margin-bottom: 20px;
-  }
-  .btn {
-    margin: 10px;
-    padding: 10px 20px;
-    font-size: 16px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  .hidden {
-    display: none;
-  }
-  ul {
-    list-style-type: none;
-  }
-	
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Testes de Memória</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
-  <div class="container">
-    <h1>Lista de Palavras</h1>
-    <div class="btn-container">
-      <button class="btn" onclick="toggleList()">Mostrar/Esconder Lista</button>
+
+<body class="text-center">
+
+    <div class="container">
+        <h1 class="my-4">Testes de Memória</h1>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card mb-4 shadow">
+                    <div class="card-body">
+                        <i class="bi bi-card-text display-3 text-primary"></i>
+                        <h5 class="card-title mt-3">Lista de Palavras</h5>
+                        <a href="palavras.html" class="btn btn-primary" target="_blank">Iniciar Teste</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="card mb-4 shadow">
+                    <div class="card-body">
+                        <i class="bi bi-card-checklist display-3 text-success"></i>
+                        <h5 class="card-title mt-3">Flip Game</h5>
+                        <a href="flipgame.html" class="btn btn-success" target="_blank">Iniciar Teste</a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <ul id="wordList" class="hidden">
-      <!-- As palavras serão adicionadas aqui via JavaScript -->
-    </ul>
-  </div>
 
-  <script>
-    const words = [
-      "GATO", "CARREGADOR", "MÃE", "SEMINÁRIO", "PRAIA", "PRATELEIRA", 
-      "FEIJÃO", "ESTRUTURA", "FILME", "ESPÍRITO", "FÉRIAS", "BOLA", "DOCE", 
-      "JANELA", "VIAGEM", "TRÂNSITO", "AMIGO", "CORTADOR", "INFÂNCIA", "VENTILADOR"
-    ];
-
-    function toggleList() {
-      const list = document.getElementById('wordList');
-      list.classList.toggle('hidden');
-    }
-
-    window.addEventListener('load', () => {
-      const list = document.getElementById('wordList');
-      words.forEach(word => {
-        const listItem = document.createElement('li');
-        listItem.textContent = word;
-        list.appendChild(listItem);
-      });
-    });
-  </script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.28.1/font/bootstrap-icons.css"></script>
 </body>
+
 </html>
