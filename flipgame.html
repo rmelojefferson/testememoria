@@ -22,6 +22,15 @@
             background: #000;
             color: #000;
         }
+
+        @media (max-width: 767px) {
+            .memory-card {
+                width: 70px;
+                height: 70px;
+                font-size: 30px;
+                line-height: 70px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -75,7 +84,10 @@
         }
 
         function updateTimer() {
-            document.getElementById('timer').textContent = seconds;
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = seconds % 60;
+            const formattedTime = `${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
+            document.getElementById('timer').textContent = formattedTime;
         }
 
         function startTimer() {
@@ -90,9 +102,16 @@
         }
 
         function resetGame() {
-    location.reload();
-}
-
+            shuffledCards = shuffle([...cards, ...cards]);
+            flippedCards = [];
+            hits = 0;
+            misses = 0;
+            seconds = 0;
+            stopTimer();
+            updateScore();
+            updateTimer();
+            hideAll();
+        }
 
         window.addEventListener('load', () => {
             const memoryGame = document.getElementById('memory-game');
@@ -108,7 +127,7 @@
 
         function flipCard() {
             const index = this.dataset.index;
-            if (!flippedCards.includes(index) && flippedCards.length < 2 && !this.classList.contains('found')) {
+            if (!flippedCards.includes(index) && flippedCards.length < 2) {
                 this.innerHTML = shuffledCards[index];
                 this.classList.remove('hidden');
                 flippedCards.push(index);
@@ -120,24 +139,18 @@
 
         function checkMatch() {
             const [index1, index2] = flippedCards;
-            const card1 = document.querySelector(`[data-index='${index1}']`);
-            const card2 = document.querySelector(`[data-index='${index2}']`);
-  
             if (shuffledCards[index1] !== shuffledCards[index2]) {
+                const card1 = document.querySelector(`[data-index='${index1}']`);
+                const card2 = document.querySelector(`[data-index='${index2}']`);
                 card1.innerHTML = card2.innerHTML = '<i class="bi bi-question"></i>';
                 card1.classList.add('hidden');
                 card2.classList.add('hidden');
                 misses++;
             } else {
                 hits++;
-                card1.classList.add('found'); 
-                card2.classList.add('found'); 
                 if (hits === cards.length) {
                     stopTimer();
-                    const minutes = Math.floor(seconds / 60);
-                    const remainingSeconds = seconds % 60;
-                    const timeText = minutes > 0 ? `${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')} minutos` : `${remainingSeconds} segundos`;
-                    alert(`Você terminou em ${timeText}!`);
+                    alert(`Você terminou em ${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, '0')}!`);
                 }
             }
             updateScore();
@@ -148,4 +161,3 @@
     <script src="https://code.iconify.design/1/1.0.7/iconify.min.js"></script>
 </body>
 </html>
-
